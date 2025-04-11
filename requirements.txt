@@ -6,4 +6,4 @@ catboost
 pickle
 joblib
 flask
-Gradient Boosting Classifier
+
