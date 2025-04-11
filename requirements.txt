@@ -1,0 +1,16 @@
+#importing libraries
+import pandas as pd#for data handling
+import numpy as np#for data handling
+#scikit-learn for model training and preprocessing. 
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+#imblearn for handling imbalanced data using SMOTE.
+from imblearn.over_sampling import SMOTE
+from sklearn.feature_selection import RFE
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, classification_report
+#xgboost and catboost for advanced machine learning models.
+import xgboost as xgb
+import catboost as cb
+import pickle
+pip install flask
