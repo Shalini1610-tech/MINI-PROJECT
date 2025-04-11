@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Diagnosis</title>
+    <script>
+        function detectLanguage() {
+            var userText = document.getElementById('user_text').value;
+            if (userText.trim() !== '') {
+                document.getElementById('langForm').submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>{{ translator.translate("Medical Diagnosis System", dest=language).text }}</h1>
+    <form id="langForm" method="POST">
+        <label>{{ translator.translate("Enter any text in your language to detect language:", dest=language).text }}</label>
+        <input type="text" id="user_text" name="user_text" onblur="detectLanguage()" required>
+        <br><br>
+        
+        <h3>{{ translator.translate("Please enter the required details:", dest=language).text }}</h3>
+        {% for feature in feature_columns %}
+            <label>{{ translator.translate(feature, dest=language).text }}</label>
+            <input type="text" name="feature{{ loop.index }}" required><br><br>
+        {% endfor %}
+        
+        <button type="submit">{{ submit_text }}</button>
+    </form>
+    
+    {% if diagnosis %}
+        <h2>{{ translator.translate("Diagnosis Result:", dest=language).text }}</h2>
+        <p>{{ diagnosis }}</p>
+    {% endif %}
+</body>
+</html>

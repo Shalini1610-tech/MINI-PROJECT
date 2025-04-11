@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Diagnosis - GDDES</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white;
+      text-align: center;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      backdrop-filter: blur(10px);
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2em;
+      transition: 0.3s;
+    }
+    .navbar a:hover {
+      color: #ff7eb3;
+    }
+    .container {
+      margin-top: 130px;
+      padding: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      color: #ff7eb3;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+    }
+    h2 {
+      margin-top: 20px;
+      color: #ffc3dc;
+    }
+    label {
+      text-align: left;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    select {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+    .btn {
+      background: #ff7eb3;
+      color: white;
+      font-size: 1.1em;
+      padding: 15px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background: #ff4e8c;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/">Home</a>
+    <a href="/gd-system">GDDES System</a>
+    <a href="/about">About Us</a>
+    <a href="/contact">Contact</a>
+  </div>
+
+  <div class="container">
+    <h1>Diagnosis Form</h1>
+    <form method="POST" action="/diagnosis">
+
+      <h2>UTI Symptoms</h2>
+      {% for symptom in ['Occurrence of nausea', 'Lumbar pain', 'Urine pushing (continuous need for urination)',
+                         'Micturition pains', 'Burning of urethra, itch, swelling of urethra outlet',
+                         'Inflammation of urinary bladder'] %}
+        <label for="{{ symptom }}">{{ symptom }}</label>
+        <select name="{{ symptom }}" required>
+          <option value="" disabled selected>Select an option</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      {% endfor %}
+
+      <h2 style="margin-top: 40px;">PCOS Diagnosis</h2>
+<form action="/predict_pcos" method="POST">
+  <div class="form-section">
+    
+    <div class="form-group">
+      <label>Age (yrs)</label>
+      <input type="number" name="Age (yrs)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Weight (Kg)</label>
+      <input type="number" step="0.1" name="Weight (Kg)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Height (Cm)</label>
+      <input type="number" step="0.1" name="Height(Cm)" required>
+    </div>
+
+    <div class="form-group">
+      <label>BMI</label>
+      <input type="number" step="0.1" name="BMI" required>
+    </div>
+
+    <div class="form-group">
+      <label>Blood Group</label>
+      <input type="text" name="Blood Group" required>
+    </div>
+
+    <div class="form-group">
+      <label>Pulse Rate (bpm)</label>
+      <input type="number" name="Pulse rate(bpm)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Respiratory Rate (breaths/min)</label>
+      <input type="number" name="RR (breaths/min)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Hemoglobin (Hb g/dl)</label>
+      <input type="number" step="0.1" name="Hb(g/dl)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Cycle</label>
+      <select name="Cycle(R/I)" required>
+        <option value="R">Regular</option>
+        <option value="I">Irregular</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Cycle Length (days)</label>
+      <input type="number" name="Cycle length(days)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Marriage Status (Years)</label>
+      <input type="number" step="0.1" name="Marraige Status (Yrs)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Pregnant</label>
+      <select name="Pregnant(Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>No. of Abortions</label>
+      <input type="number" name="No. of aborptions" required>
+    </div>
+
+    <div class="form-group">
+      <label>FSH (mIU/mL)</label>
+      <input type="number" step="0.01" name="FSH(mIU/mL)" required>
+    </div>
+
+    <div class="form-group">
+      <label>LH (mIU/mL)</label>
+      <input type="number" step="0.01" name="LH(mIU/mL)" required>
+    </div>
+
+    <div class="form-group">
+      <label>FSH/LH</label>
+      <input type="number" step="0.01" name="FSH/LH" required>
+    </div>
+
+    <div class="form-group">
+      <label>Hip (inch)</label>
+      <input type="number" step="0.1" name="Hip(inch)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Waist (inch)</label>
+      <input type="number" step="0.1" name="Waist(inch)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Waist:Hip Ratio</label>
+      <input type="number" step="0.01" name="Waist:Hip Ratio" required>
+    </div>
+
+    <div class="form-group">
+      <label>TSH (mIU/L)</label>
+      <input type="number" step="0.01" name="TSH (mIU/L)" required>
+    </div>
+
+    <div class="form-group">
+      <label>AMH (ng/mL)</label>
+      <input type="number" step="0.01" name="AMH(ng/mL)" required>
+    </div>
+
+    <div class="form-group">
+      <label>PRL (ng/mL)</label>
+      <input type="number" step="0.01" name="PRL(ng/mL)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Vitamin D3 (ng/mL)</label>
+      <input type="number" step="0.01" name="Vit D3 (ng/mL)" required>
+    </div>
+
+    <div class="form-group">
+      <label>PRG (ng/mL)</label>
+      <input type="number" step="0.01" name="PRG(ng/mL)" required>
+    </div>
+
+    <div class="form-group">
+      <label>RBS (mg/dl)</label>
+      <input type="number" name="RBS(mg/dl)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Weight Gain</label>
+      <select name="Weight gain(Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Hair Growth</label>
+      <select name="hair growth(Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Skin Darkening</label>
+      <select name="Skin darkening (Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Hair Loss</label>
+      <select name="Hair loss(Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Pimples</label>
+      <select name="Pimples(Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Fast Food Consumption</label>
+      <select name="Fast food (Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Regular Exercise</label>
+      <select name="Reg.Exercise(Y/N)" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>BP Systolic (mmHg)</label>
+      <input type="number" name="BP _Systolic (mmHg)" required>
+    </div>
+
+    <div class="form-group">
+      <label>BP Diastolic (mmHg)</label>
+      <input type="number" name="BP _Diastolic (mmHg)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Follicle No. (L)</label>
+      <input type="number" name="Follicle No. (L)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Follicle No. (R)</label>
+      <input type="number" name="Follicle No. (R)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Avg. F size (L) (mm)</label>
+      <input type="number" step="0.1" name="Avg. F size (L) (mm)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Avg. F size (R) (mm)</label>
+      <input type="number" step="0.1" name="Avg. F size (R) (mm)" required>
+    </div>
+
+    <div class="form-group">
+      <label>Endometrium (mm)</label>
+      <input type="number" step="0.1" name="Endometrium (mm)" required>
+    </div>
+
+    <button class="submit-btn" type="submit">Submit</button>
+  </div>
+</form>
+
+      
+      
+</body>
+</html>
