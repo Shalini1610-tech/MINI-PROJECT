@@ -1,55 +1,143 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect
 import pickle
 import pandas as pd
 import numpy as np
-
 import joblib
-from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import SelectKBest
-from imblearn.over_sampling import SMOTE
-from sklearn.feature_selection import RFE
-from sklearn.model_selection import train_test_split
+import json
+import speech_recognition as sr
+from flask import jsonify
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+import speech_recognition as sr
+import nltk
+from pydub import AudioSegment
+import tempfile
+import sqlite3
+
+import os
+from pydub import AudioSegment
+
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Secret key for sessions
 
-# Load the trained models
+
+# === Load Models and Preprocessors ===
 with open('pcos_model.pkl', 'rb') as f:
     pcos_model = joblib.load(f)
 
 with open('catboost_uti_model.pkl', 'rb') as f:
     uti_model = joblib.load(f)
 
-# Load the scaler and selector for PCOS
 with open('pcos_scaler.pkl', 'rb') as f:
     pcos_scaler = joblib.load(f)
 
 with open('pcos_selector.pkl', 'rb') as f:
     pcos_selector = joblib.load(f)
 
-# Home page
+# === Load Translations ===
+def load_translations(lang):
+    try:
+        if lang == 'te':
+            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/te.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'en':
+            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/en.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'hi':
+            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/hi.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'pu':
+             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/pu.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'bn':
+             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/bn.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'od':
+             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/od.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'as':
+             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/as.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'gu':
+             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/gu.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'ma':
+             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/ma.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        elif lang == 'ta':
+             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/ta.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        
+        else:
+            # Default to English if unsupported language code is provided
+            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/en.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"Error loading translations for language '{lang}': {str(e)}")
+        return {}
+
+# === Language Selection ===
+@app.route('/set_language/<lang>')
+def set_language(lang):
+    session['language'] = lang
+    return redirect(request.referrer or '/')
+
+# === Routes ===
 @app.route('/')
 def home():
-    return render_template('homepage2.html')
+    lang = session.get('language', 'en')
+    translations = load_translations(lang)
+    return render_template('homepage2.html', translations=translations)
 
-# About Us page
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    lang = session.get('language', 'en')
+    translations = load_translations(lang)
+    return render_template('about.html', translations=translations)
 
-# Contact page
-@app.route('/contact', methods=['GET', 'POST'])
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        message = request.form.get('message')
-        return render_template('contact.html', submitted=True, name=name, message=message)
-    return render_template('contact.html', submitted=False)
+    lang = session.get('language', 'en')
+    translations = load_translations(lang)
+    submitted = False
+    name = ""
+    message = ""
 
-# GDDES system dropdown routes
-@app.route('/pcos', methods=['GET', 'POST'])
-def pcos():
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        message = request.form["message"]
+
+        # Store into database
+        conn = sqlite3.connect("contacts.db")
+        c = conn.cursor()
+        c.execute("INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)", (name, email, message))
+        conn.commit()
+        conn.close()
+
+        submitted = True
+
+    return render_template("contact.html", submitted=submitted, name=name, message=message, translations=translations)
+
+
+
+@app.route('/diagnosis')
+def diagnosis():
+    lang = session.get('language', 'en')
+    translations = load_translations(lang)
+    return render_template('diagnosis.html' , translations=translations)
+
+
+# === PCOS Diagnosis ===
+@app.route('/pcosm', methods=['GET', 'POST'])
+def pcosm():
     result = None
+    lang = session.get('language', 'en')
+    translations = load_translations(lang)
+
     if request.method == 'POST':
         try:
             input_features = [
@@ -95,46 +183,136 @@ def pcos():
             ]
 
             input_array = np.array([input_features])
-            print("Scaler type:", type(pcos_scaler))
-            print("Selector type:", type(pcos_selector))
             scaled_input = pcos_scaler.transform(input_array)
             selected_input = pcos_selector.transform(scaled_input)
             prediction = pcos_model.predict(selected_input)
-            result = 'Oh nooo!YOU have PCOS' if prediction[0] == 1 else 'Hurrayy!Your condition is normal,No PCOS'
+            result = translations['pcos_result_positive'] if prediction[0] == 1 else translations['pcos_result_negative']
 
         except Exception as e:
             result = f"Error: {str(e)}"
 
-    return render_template('pcos.html', result=result)
+    return render_template('pcosm.html', result=result, translations=translations)
 
+@app.route('/speech_diagnosis', methods=['POST'])
+def speech_diagnosis():
+    recognizer = sr.Recognizer()
+    try:
+        with sr.Microphone() as source:
+            print("🎤 Listening for user symptoms...")
+            audio = recognizer.listen(source)
+
+        transcript = recognizer.recognize_google(audio)
+        print("User said:", transcript)
+
+        stop_words = set(stopwords.words('english'))
+        cleaned_input = ' '.join([w for w in word_tokenize(transcript.lower()) if w.isalnum() and w not in stop_words])
+
+        tfidf = TfidfVectorizer()
+        vectors = tfidf.fit_transform([cleaned_input] + stored_symptoms)
+        similarities = cosine_similarity(vectors[0:1], vectors[1:])
+        best_match_index = similarities.argmax()
+        diagnosis = stored_diagnoses[best_match_index]
+
+        return jsonify({"transcript": transcript, "diagnosis": diagnosis})
+    except Exception as e:
+        print(" Error in speech diagnosis:", e)
+        return jsonify({"transcript": "", "diagnosis": "Speech recognition error"})
+
+
+
+
+@app.route('/upload_audio', methods=['POST'])
+def upload_audio():
+    recognizer = sr.Recognizer()
+    audio_file = request.files['audio']
+
+    try:
+        # Save uploaded blob
+        temp_input = tempfile.NamedTemporaryFile(delete=False, suffix=".webm")
+        audio_file.save(temp_input.name)
+
+        # Convert to wav
+        sound = AudioSegment.from_file(temp_input.name)
+        sound = sound.set_frame_rate(16000).set_channels(1)
+        sound.export("processed.wav", format="wav")
+
+        # Recognize
+        with sr.AudioFile("processed.wav") as source:
+            audio = recognizer.record(source)
+            transcript = recognizer.recognize_google(audio)
+
+        # Dummy diagnosis logic
+        symptoms = transcript.lower()
+        if "burning" in symptoms or "urine" in symptoms:
+            diagnosis = "UTI"
+        elif "irregular" in symptoms or "periods" in symptoms or "hormonal imbalance" in symptoms or "acne" in symptoms or "excess " in symptoms:
+            diagnosis = "PCOS"
+        else:
+            diagnosis = "Normal"
+
+        return jsonify({"transcript": transcript, "diagnosis": diagnosis})
+    
+    except Exception as e:
+        print("❌ Speech recognition error:", e)
+        return jsonify({"transcript": "", "diagnosis": "Could not recognize speech"})
+
+
+# === UTI Diagnosis ===
 @app.route('/uti', methods=['GET', 'POST'])
 def uti():
     result = None
+    lang = session.get('language', 'en')
+    translations = load_translations(lang)
+
     if request.method == 'POST':
-        data = request.form
-        feature_names = [
-            'Temperature of patient',
-            'Occurrence of nausea',
-            'Lumbar pain',
-            'Urine pushing (continuous need for urination)',
-            'Micturition pains',
-            'Burning of urethra, itch, swelling of urethra outlet',
-            'Inflammation of urinary bladder'
-        ]
-        values = []
-        for feature in feature_names:
-            if feature == 'Temperature of patient':
-                try:
-                    values.append(float(data.get(feature)))
-                except:
-                    values.append(0.0)
-            else:
-                values.append(1 if data.get(feature) == 'yes' else 0)
+        try:
+            data = request.form
+            values = [
+                float(data.get('Temperature of patient', 0.0)),
+                1 if data.get('Occurrence of nausea') == 'yes' else 0,
+                1 if data.get('Lumbar pain') == 'yes' else 0,
+                1 if data.get('Urine pushing (continuous need for urination)') == 'yes' else 0,
+                1 if data.get('Micturition pains') == 'yes' else 0,
+                1 if data.get('Burning of urethra, itch, swelling of urethra outlet') == 'yes' else 0,
+                1 if data.get('Inflammation of urinary bladder') == 'yes' else 0
+            ]
 
-        input_df = pd.DataFrame([values], columns=feature_names)
-        pred = uti_model.predict(input_df)[0]
-        result = "You have UTI" if pred == 1 else "Your Condition is normal,no UTI"
-    return render_template('uti.html', result=result)
+            input_df = pd.DataFrame([values], columns=[
+                'Temperature of patient',
+                'Occurrence of nausea',
+                'Lumbar pain',
+                'Urine pushing (continuous need for urination)',
+                'Micturition pains',
+                'Burning of urethra, itch, swelling of urethra outlet',
+                'Inflammation of urinary bladder'
+            ])
 
+            prediction = uti_model.predict(input_df)[0]
+            result = translations.get('uti_result_positive', 'Positive for UTI') if prediction == 1 else translations.get('uti_result_negative', 'Negative for UTI')
+
+        except Exception as e:
+            result = f"Error: {str(e)}"
+
+    return render_template('uti.html', result=result, translations=translations)
+stored_symptoms = [
+    "burning while urinating and fishy smell in urine",
+    "frequent urination with discomfort",
+    "irregular periods and excess facial hair",
+    "acne and weight gain",
+    "no symptoms"
+]
+stored_diagnoses = [
+    "UTI",
+    "UTI",
+    "PCOS",
+    "PCOS",
+    "Normal"
+]
+
+
+
+
+
+# === Run App ===
 if __name__ == '__main__':
     app.run(debug=True)

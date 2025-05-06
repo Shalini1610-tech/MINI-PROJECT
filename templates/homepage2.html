@@ -1,201 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GDDES - Home</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        body {
-            background: linear-gradient(to right, #8c63b3, #869cc2);
-            color: white;
-            text-align: center;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 20px;
-            background: rgba(214, 231, 229, 0.911);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            backdrop-filter: blur(10px);
-        }
-        .navbar a {
-            color: rgb(15, 12, 15);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.2em;
-            transition: 0.3s;
-        }
-        .navbar a:hover {
-            color: #ff7eb3;
-        }
-        .container {
-            margin-top: 100px;
-            padding: 50px;
-        }
-        .content {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 50px;
-        }
-        .card {
-            width: 300px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            text-align: center;
-            transition: transform 0.3s ease-in-out;
-            cursor: pointer;
-            border: 2px solid white;
-        }
-        .card img {
-            width: 100%;
-            border-radius: 10px;
-            transition: transform 0.3s ease-in-out;
-        }
-        .card:hover img {
-            transform: scale(1.1);
-        }
-        .card:hover {
-            transform: translateY(-10px);
-        }
-        .description {
-            font-size: 1em;
-            margin-top: 10px;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            color: white;
-            background: #ff7eb3;
-            border-radius: 30px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            background: #ff4e8c;
-        }
-
-        /* make sure .navbar and .nav-link already match your home page style */
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;    /* directly below the GDDES System link */
-  left: 0;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(8px);
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-  min-width: 180px;
-  z-index: 1000;
-  flex-direction: column;
-}
-
-.dropdown-item {
-  display: block;
-  padding: 12px 16px;
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  transition: background 0.3s, color 0.3s;
-}
-
-.dropdown-item:hover {
-  background: rgba(255,255,255,0.15);
-  color: #ff7eb3;
-}
-
-/* SHOW the dropdown only when hovering the parent */
-.dropdown:hover .dropdown-content {
-  display: flex;
-}
-
-
-.logo {
-    height: 50px;
-    width: auto;
-    border-radius: 8px;
-    margin-right: 20px;
-    transition: transform 0.3s;
-}
-
-.logo:hover {
-    transform: scale(1.05);
-}
-
-
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GDDES - Home</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(to right, #8c63b3, #869cc2);
+      color: white;
+      text-align: center;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px;
+      background: rgba(214, 231, 229, 0.911);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      backdrop-filter: blur(10px);
+    }
+    .navbar a {
+      color: rgb(15, 12, 15);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2em;
+      transition: 0.3s;
+    }
+    .navbar a:hover {
+      color: #ff7eb3;
+    }
+    .container {
+      margin-top: 100px;
+      padding: 50px;
+    }
+    .content {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+    .card {
+      width: 300px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      text-align: center;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    .description {
+      font-size: 1em;
+      margin-top: 10px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      color: white;
+      background: #ff7eb3;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #ff4e8c;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      min-width: 180px;
+      z-index: 1000;
+      flex-direction: column;
+    }
+    .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dropdown-item:hover {
+      background: rgba(255,255,255,0.15);
+      color: #ff7eb3;
+    }
+    .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    .logo {
+      height: 50px;
+      width: auto;
+      border-radius: 8px;
+      margin-right: 20px;
+      transition: transform 0.3s;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 <body>
-     <div class="navbar">
-
-
-        <div class="logo">
-            <a href="/">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo">
-            </a>
-            
-        </div>
-        <a href="#">Home</a>
-        
-        <div class="dropdown">
-            <a href="#" class="nav-link">GDDES System</a>
-            <div class="dropdown-content">
-              <a href="pcos" class="dropdown-item">PCOS</a>
-              <a href="uti" class="dropdown-item">UTI</a>
-            </div>
-          </div>
-          
-
-        <a href="about">About Us</a>
-        <a href="contact">Contact</a>
+  <div class="navbar">
+    <div class="logo">
+      <a href="/">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo" />
+      </a>
     </div>
-     
-      
-        
-      
-    <div class="container">
-
-        <h1><marquee>WELCOME TO GYNECOLOGICAL DISEASE DETECTION EXPERT SYSTEM</marquee></h1>
-        <p>Expert system for diagnosing PCOS and UTI.</p>
-        <div class="content">
-            <div class="card">
-                <!--<img src="https://via.placeholder.com/300" alt="GDDES System">-->
-                <h3>GDDES SYSTEM</h3>
-                <p class="description">GDDES is an expert system designed to detect gynecological conditions such as Polycystic Ovary Syndrome (PCOS) and Urinary Tract Infections (UTI). </p>
-            </div>
-            <div class="card">
-                <!--<img src="https://via.placeholder.com/300" alt="About Us">-->
-                <h3>About Us</h3>
-                <p class="description">At GDDES, we care deeply about women's health.Our vision is to bridge the gap between technology and accessible healthcare.</p>
-            </div>
-            <div class="card">
-                <!--<img src="https://via.placeholder.com/300" alt="Contact">-->
-                <h3>Contact</h3>
-                <p class="description">Reach out to us for inquiries, collaborations, or support regarding GDDES.</p>
-            </div>
-        </div>
-        <a href="/diagnosis" class="btn">Get Started</a>
+    <a href="#">{{ translations['nav-home'] }}</a>
+    <select id="language-select" onchange="changeLanguage(this.value)">
+      <option value="en" {% if session.get('language') == 'en' %}selected{% endif %}>English</option>
+      <option value="te" {% if session.get('language') == 'te' %}selected{% endif %}>తెలుగు</option>
+      <option value="hi" {% if session.get('language') == 'hi' %}selected{% endif %}>हिंदी</option>
+      <option value="pu" {% if session.get('language') == 'pu' %}selected{% endif %}>ਪੰਜਾਬੀ(Pajābī)</option>
+      <option value="bn" {% if session.get('language') == 'bn' %}selected{% endif %}>বাংলা(bengali)</option>
+      <option value="ma" {% if session.get('language') == 'ma' %}selected{% endif %}>मराठी(Marati)</option>
+      <option value="ta" {% if session.get('language') == 'ta' %}selected{% endif %}>தமிழ்(Tamil)</option>
+      <option value="od" {% if session.get('language') == 'od' %}selected{% endif %}>ଓଡ଼ିଆ(Odia)</option>
+      <option value="gu" {% if session.get('language') == 'gu' %}selected{% endif %}>ગુજરાતી(Gujarati)</option>
+      <option value="as" {% if session.get('language') == 'as' %}selected{% endif %}>অসমীয়া(Assamese)</option>
+    </select>
+    <div class="dropdown">
+      <a href="#" class="nav-link">{{ translations['card1_title'] }}</a>
+      <div class="dropdown-content">
+        <a href="/pcosm" class="dropdown-item">PCOS</a>
+        <a href="/uti" class="dropdown-item">UTI</a>
+      </div>
     </div>
+    <a href="/about">{{ translations['card2_title'] }}</a>
+    <a href="/contact">{{ translations['card3_title'] }}</a>
+  </div>
+
+  <div class="container">
+    <h1><marquee><b>{{ translations['home_marquee'] }}</b></marquee></h1>
+    <p>{{ translations['home_subtitle'] }}</p>
+    <div class="content">
+      <div class="card">
+        <h3>{{ translations['card1_title'] }}</h3>
+        <p class="description">{{ translations['card1_desc'] }}</p>
+      </div>
+      <div class="card">
+        <h3>{{ translations['card2_title'] }}</h3>
+        <p class="description">{{ translations['card2_desc'] }}</p>
+      </div>
+      <div class="card">
+        <h3>{{ translations['card3_title'] }}</h3>
+        <p class="description">{{ translations['card3_desc'] }}</p>
+      </div>
+    </div>
+    <a href="/diagnosis" class="btn">{{ translations['get_started_btn'] }}</a>
+  </div>
+
+  <script>
+    function changeLanguage(lang) {
+      window.location.href = "/set_language/" + lang;
+    }
+  </script>
 </body>
 </html>

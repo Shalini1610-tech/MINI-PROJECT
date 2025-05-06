@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Contact Us - GDDES</title>
+    <title>{{ translations['contact_heading'] }} - GDDES</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
@@ -85,54 +85,53 @@
             background: #ff4e8c;
         }
         .logo {
-    height: 50px;
-    width: auto;
-    border-radius: 8px;
-    margin-right: 20px;
-    transition: transform 0.3s;
-}
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+            margin-right: 20px;
+            transition: transform 0.3s;
+        }
 
-.logo:hover {
-    transform: scale(1.05);
-}
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+        .logo:hover {
+            transform: scale(1.05);
+        }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;    /* directly below the GDDES System link */
-  left: 0;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(8px);
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-  min-width: 180px;
-  z-index: 1000;
-  flex-direction: column;
-}
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-.dropdown-item {
-  display: block;
-  padding: 12px 16px;
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  transition: background 0.3s, color 0.3s;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            min-width: 180px;
+            z-index: 1000;
+            flex-direction: column;
+        }
 
-.dropdown-item:hover {
-  background: rgba(255,255,255,0.15);
-  color: #ff7eb3;
-}
+        .dropdown-item {
+            display: block;
+            padding: 12px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s, color 0.3s;
+        }
 
-/* SHOW the dropdown only when hovering the parent */
-.dropdown:hover .dropdown-content {
-  display: flex;
-}
+        .dropdown-item:hover {
+            background: rgba(255,255,255,0.15);
+            color: #ff7eb3;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: flex;
+        }
     </style>
 </head>
 <body>
@@ -141,34 +140,40 @@
             <a href="/">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo">
             </a>
-            
         </div>
-        <a href="/" class="nav-link">Home</a>
+        <a href="/" class="nav-link">{{ translations['home'] }}</a>
         <div class="dropdown">
-            <a href="#" class="nav-link">GDDES System</a>
+            <a href="#" class="nav-link">{{ translations['system'] }}</a>
             <div class="dropdown-content">
-              <a href="pcos" class="dropdown-item">PCOS</a>
-              <a href="uti" class="dropdown-item">UTI</a>
+                <a href="/pcosm" class="dropdown-item">{{ translations['pcos'] }}</a>
+                <a href="/uti" class="dropdown-item">{{ translations['uti'] }}</a>
             </div>
-          </div>
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact</a>
+        </div>
+        <a href="/about" class="nav-link">{{ translations['about'] }}</a>
+        <a href="/contact" class="nav-link">{{ translations['contact'] }}</a>
     </div>
+
     <div class="container">
-        <h1>Contact Us</h1>
+        <h1>{{ translations['contact_heading'] }}</h1>
         <form action="#" method="POST">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            <button type="submit" class="btn">Send Message</button>
+            <input type="text" name="name" placeholder="{{ translations['name_input'] }}" required>
+            <input type="email" name="email" placeholder="{{ translations['email_input'] }}" required>
+            <textarea name="message" placeholder="{{ translations['message_input'] }}" required></textarea>
+            
+            <button type="submit" class="btn">{{ translations['send_button'] }}</button>
         </form>
+
         {% if submitted %}
-    <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-        <h2>Thank you for submitting, {{ name }}!</h2>
-        <p>Your message is:</p>
-        <blockquote style="color: #ffe;">{{ message }}</blockquote>
+        <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+            <h2>{{ translations['thank_you_message'] }} {{ name }}!</h2>
+            <p>{{ translations['your_message'] }}</p>
+            <blockquote style="color: #ffe;">{{ message }}</blockquote>
+        </div>
+        {% endif %}
     </div>
-{% endif %}
-    </div>
+
+    
+        
+
 </body>
 </html>

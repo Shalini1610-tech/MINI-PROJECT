@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>About Us - GDDES</title>
+    <title>{{ translations['about_us_title'] }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
@@ -65,54 +65,54 @@
             transform: translateY(-5px);
         }
         .dropdown {
-  position: relative;
-  display: inline-block;
-}
+            position: relative;
+            display: inline-block;
+        }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;    /* directly below the GDDES System link */
-  left: 0;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(8px);
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-  min-width: 180px;
-  z-index: 1000;
-  flex-direction: column;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            min-width: 180px;
+            z-index: 1000;
+            flex-direction: column;
+        }
 
-.dropdown-item {
-  display: block;
-  padding: 12px 16px;
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  transition: background 0.3s, color 0.3s;
-}
+        .dropdown-item {
+            display: block;
+            padding: 12px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
 
-.dropdown-item:hover {
-  background: rgba(255,255,255,0.15);
-  color: #ff7eb3;
-}
+        .dropdown-item:hover {
+            background: rgba(255,255,255,0.15);
+            color: #ff7eb3;
+        }
 
-/* SHOW the dropdown only when hovering the parent */
-.dropdown:hover .dropdown-content {
-  display: flex;
-}
+        .dropdown:hover .dropdown-content {
+            display: flex;
+        }
+
         .logo {
-    height: 50px;
-    width: auto;
-    border-radius: 8px;
-    margin-right: 20px;
-    transition: transform 0.3s;
-}
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+            margin-right: 20px;
+            transition: transform 0.3s;
+        }
 
-.logo:hover {
-    transform: scale(1.05);
-}
+        .logo:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -121,25 +121,30 @@
             <a href="/">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo">
             </a>
-            
         </div>
-        <a href="/" class="nav-link">Home</a>
+        
+    <!--<select id="language-select" onchange="changeLanguage(this.value)">
+      <option value="en" {% if session.get('language') == 'en' %}selected{% endif %}>English</option>
+      <option value="te" {% if session.get('language') == 'te' %}selected{% endif %}>తెలుగు</option>
+      <option value="hi" {% if session.get('language') == 'hi' %}selected{% endif %}>हिंदी</option>
+    </select>-->
+        <a href="/" class="nav-link">{{ translations['home'] }}</a>
         <div class="dropdown">
-            <a href="#" class="nav-link">GDDES System</a>
+            <a href="#" class="nav-link">{{ translations['gddes_system'] }}</a>
             <div class="dropdown-content">
-              <a href="pcos" class="dropdown-item">PCOS</a>
-              <a href="uti" class="dropdown-item">UTI</a>
+                <a href="pcosm" class="dropdown-item">{{ translations['pcos'] }}</a>
+                <a href="uti" class="dropdown-item">{{ translations['uti'] }}</a>
             </div>
-          </div>
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact</a>
+        </div>
+        <a href="/about">{{ translations['about_us'] }}</a>
+        <a href="/contact">{{ translations['contact'] }}</a>
     </div>
     <div class="container">
-        <h1>About GDDES</h1>
+        <h1>{{ translations['about_gddes_title'] }}</h1>
         <div class="about-text">
-            <p>Welcome to GDDES (Gynecological Disease Diagnosis Expert System) — a visionary initiative that combines the power of machine learning and modern healthcare to assist in the early detection of gynecological disorders, with a primary focus on PCOS (Polycystic Ovary Syndrome) and UTI (Urinary Tract Infection).</p>
-            <p>GDDES leverages state-of-the-art machine learning algorithms to analyze user input in the form of medical parameters and symptoms, then generates intelligent predictions about the user’s potential condition. It’s more than just a tool — it’s an interactive expert system that empowers individuals to take control of their health</p>
-            <p>We continue to enhance GDDES with better models, smarter diagnostics, and broader disease coverage — because we believe that every woman deserves access to quality health insights, right at her fingertips.</p>
+            <p>{{ translations['about_gddes_paragraph_1'] }}</p>
+            <p>{{ translations['about_gddes_paragraph_2'] }}</p>
+            <p>{{ translations['about_gddes_paragraph_3'] }}</p>
         </div>
     </div>
 </body>

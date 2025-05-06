@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  {% set lang_map = {
+    'en': 'en-US',
+    'hi': 'hi-IN',
+    'te': 'te-IN',
+    'pu': 'pa-IN',
+    'bn': 'bn-IN',
+    'od': 'or-IN',
+    'as': 'as-IN',
+    'gu': 'gu-IN',
+    'ma': 'mr-IN',
+    'ta': 'ta-IN'
+  } %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PCOS Diagnosis - GDDES</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white; text-align: center;
+    }
+
+    /* --- Navbar --- */
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      position: fixed; top: 0; width: 100%;
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+    }
+    .navbar .nav-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2em;
+      padding: 0 10px;
+      transition: color 0.3s;
+    }
+    .navbar .nav-link:hover {
+      color: #ff7eb3;
+    }
+
+    /* --- Dropdown --- */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      min-width: 180px;
+      z-index: 100;
+      flex-direction: column;
+    }
+    .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dropdown-item:hover {
+      background: rgba(255,255,255,0.2);
+      color: #ff7eb3;
+    }
+    .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+
+    /* --- Page Container & Form --- */
+    .container {
+      max-width: 700px;
+      margin: 120px auto 40px;
+      padding: 0 20px;
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #ff7eb3;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 15px;
+    }
+    label {
+      text-align: left;
+      font-weight: 600;
+    }
+    input[type="text"],
+    select {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      color: #000;
+    }
+    /* Make number input text black */
+    input[type="number"] {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      color: #000;
+    }
+    input[type="number"]::placeholder {
+      color: #000;
+    }
+    .btn {
+      margin-top: 10px;
+      padding: 15px;
+      background: #ff7eb3;
+      color: white;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #ff4e8c;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+    .logo {
+    height: 50px;
+    width: auto;
+    border-radius: 8px;
+    margin-right: 20px;
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.label-container {
+    display: flex;
+    
+    gap: 8px;
+  }
+  .play-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #2196F3;
+    font-size: 0.8em;
+    padding: 2px 5px;
+  }
+  .play-btn:hover {
+    color: #1976D2;
+    background: #ff4e8c;
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(255, 126, 179, 0.3);}
+
+
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">
+      <a href="/">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo">
+      </a>
+      
+  </div>
+  
+    <!--<select id="language-select" onchange="changeLanguage(this.value)">
+      <option value="en" {% if session.get('language') == 'en' %}selected{% endif %}>English</option>
+      <option value="te" {% if session.get('language') == 'te' %}selected{% endif %}>తెలుగు</option>
+      <option value="hi" {% if session.get('language') == 'hi' %}selected{% endif %}>हिंदी</option>
+    </select>-->
+    <a href="/" class="nav-link">{{ translations['home'] }}</a>
+    <div class="dropdown">
+      <a href="#" class="nav-link">{{ translations['card1_title'] }}</a>
+      <div class="dropdown-content">
+        <a href="pcosm" class="dropdown-item">{{ translations['pcos'] }}</a>
+        <a href="uti" class="dropdown-item">{{ translations['uti'] }}</a>
+      </div>
+    </div>
+    <a href="about" class="nav-link">{{ translations['card2_title'] }}</a>
+    <a href="contact" class="nav-link">{{ translations['card3_title'] }}</a>
+  </div>
+  <div class="container">
+    <h1>{{ translations["title"] }}</h1>
+    <form method="POST" action="/pcosm">
+        <label for="Age (yrs)">{{ translations["Age (yrs)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Age (yrs)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="Age (yrs)" name="Age (yrs)" placeholder="{{ translations['Age (yrs)'] }}" required><br>
+
+        <label for="Weight (Kg)">{{ translations["Weight (Kg)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Weight (Kg)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Weight (Kg)" name="Weight (Kg)" placeholder="{{ translations['Weight (Kg)'] }}" required><br>
+
+        <label for="Height(Cm)">{{ translations["Height(Cm)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Height(Cm)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Height(Cm)" name="Height(Cm)" placeholder="{{ translations['Height(Cm)'] }}" required><br>
+
+        <label for="BMI">{{ translations["BMI"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["BMI"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="BMI" name="BMI" placeholder="{{ translations['BMI'] }}" required><br>
+
+        <label for="Blood Group">{{ translations["Blood Group"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Blood Group"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="text" id="Blood Group" name="Blood Group" placeholder="{{ translations['Blood Group'] }}" required><br>
+
+        <label for="Pulse rate(bpm)">{{ translations["Pulse rate(bpm)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Pulse rate(bpm)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="Pulse rate(bpm)" name="Pulse rate(bpm)" placeholder="{{ translations['Pulse rate(bpm)'] }}" required><br>
+
+        <label for="RR (breaths/min)">{{ translations["RR (breaths/min)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["RR (breaths/min)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="RR (breaths/min)" name="RR (breaths/min)" placeholder="{{ translations['RR (breaths/min)'] }}" required><br>
+
+        <label for="Hb(g/dl)">{{ translations["Hb(g/dl)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Hb(g/dl)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Hb(g/dl)" name="Hb(g/dl)" placeholder="{{ translations['Hb(g/dl)'] }}" required><br>
+
+        <label for="Cycle(R/I)">{{ translations["Cycle(R/I)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Cycle(R/I)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Cycle(R/I)" name="Cycle(R/I)" required>
+            <option value="" disabled selected>{{ translations["Cycle(R/I)"] }}</option>
+            <option value="R">{{ translations["Regular"] }}</option>
+            <option value="I">{{ translations["Irregular"] }}</option>
+        </select><br>
+
+        <label for="Cycle length(days)">{{ translations["Cycle length(days)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Cycle length(days)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="Cycle length(days)" name="Cycle length(days)" placeholder="{{ translations['Cycle length(days)'] }}" required><br>
+
+        <label for="Marraige Status (Yrs)">{{ translations["Marraige Status (Yrs)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Marraige Status (Yrs)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Marraige Status (Yrs)" name="Marraige Status (Yrs)" placeholder="{{ translations['Marraige Status (Yrs)'] }}" required><br>
+
+        <label for="Pregnant(Y/N)">{{ translations["Pregnant(Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Pregnant(Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Pregnant(Y/N)" name="Pregnant(Y/N)" required>
+            <option value="" disabled selected>{{ translations["Pregnant(Y/N)"] }}</option>
+            <option value="yes">{{ translations["Yes"] }}</option>
+            <option value="no">{{ translations["No"] }}</option>
+        </select><br>
+
+        <label for="No. of aborptions">{{ translations["No. of aborptions"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["No. of aborptions"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="No. of aborptions" name="No. of aborptions" placeholder="{{ translations['No. of aborptions'] }}" required><br>
+
+        <label for="FSH(mIU/mL)">{{ translations["FSH(mIU/mL)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["FSH(mIU/mL)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="FSH(mIU/mL)" name="FSH(mIU/mL)" placeholder="{{ translations['FSH(mIU/mL)'] }}" required><br>
+
+        <label for="LH(mIU/mL)">{{ translations["LH(mIU/mL)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["LH(mIU/mL)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="LH(mIU/mL)" name="LH(mIU/mL)" placeholder="{{ translations['LH(mIU/mL)'] }}" required><br>
+
+        <label for="FSH/LH">{{ translations["FSH/LH"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["FSH/LH"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="FSH/LH" name="FSH/LH" placeholder="{{ translations['FSH/LH'] }}" required><br>
+
+        <label for="Hip(inch)">{{ translations["Hip(inch)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Hip(inch)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Hip(inch)" name="Hip(inch)" placeholder="{{ translations['Hip(inch)'] }}" required><br>
+
+        <label for="Waist(inch)">{{ translations["Waist(inch)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Waist(inch)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Waist(inch)" name="Waist(inch)" placeholder="{{ translations['Waist(inch)'] }}" required><br>
+
+        <label for="Waist:Hip Ratio">{{ translations["Waist:Hip Ratio"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Waist:Hip Ratio"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="Waist:Hip Ratio" name="Waist:Hip Ratio" placeholder="{{ translations['Waist:Hip Ratio'] }}" required><br>
+
+        <label for="TSH (mIU/L)">{{ translations["TSH (mIU/L)"] }}</label>
+        <button class="play-btn" type="button"
+        data-label={{ translations["TSH (mIU/L)"]|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="TSH (mIU/L)" name="TSH (mIU/L)" placeholder="{{ translations['TSH (mIU/L)'] }}" required><br>
+
+        <label for="AMH(ng/mL)">{{ translations["AMH(ng/mL)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["AMH(ng/mL)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="AMH(ng/mL)" name="AMH(ng/mL)" placeholder="{{ translations['AMH(ng/mL)'] }}" required><br>
+
+        <label for="PRL(ng/mL)">{{ translations["PRL(ng/mL)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["PRL(ng/mL)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="PRL(ng/mL)" name="PRL(ng/mL)" placeholder="{{ translations['PRL(ng/mL)'] }}" required><br>
+
+        <label for="Vit D3 (ng/mL)">{{ translations["Vit D3 (ng/mL)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Vit D3 (ng/mL)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="Vit D3 (ng/mL)" name="Vit D3 (ng/mL)" placeholder="{{ translations['Vit D3 (ng/mL)'] }}" required><br>
+
+        <label for="PRG(ng/mL)">{{ translations["PRG(ng/mL)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["PRG(ng/mL)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.01" id="PRG(ng/mL)" name="PRG(ng/mL)" placeholder="{{ translations['PRG(ng/mL)'] }}" required><br>
+
+        <label for="RBS(mg/dl)">{{ translations["RBS(mg/dl)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["RBS(mg/dl)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="RBS(mg/dl)" name="RBS(mg/dl)" placeholder="{{ translations['RBS(mg/dl)'] }}" required><br>
+
+        <label for="Weight gain(Y/N)">{{ translations["Weight gain(Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Weight gain(Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Weight gain(Y/N)" name="Weight gain(Y/N)" required>
+            <option value="" disabled selected>{{ translations["Weight gain(Y/N)"] }}</option>
+            <option value="yes">{{ translations["Yes"] }}</option>
+            <option value="no">{{ translations["No"] }}</option>
+        </select><br>
+
+        <label for="hair growth(Y/N)">{{ translations["hair growth(Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["hair growth(Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="hair growth(Y/N)" name="hair growth(Y/N)" required>
+            <option value="" disabled selected>{{ translations["hair growth(Y/N)"] }}</option>
+            <option value="yes">{{ translations["Yes"] }}</option>
+            <option value="no">{{ translations["No"] }}</option>
+        </select><br>
+
+        <label for="Skin darkening (Y/N)">{{ translations["Skin darkening (Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Skin darkening (Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Skin darkening (Y/N)" name="Skin darkening (Y/N)" required>
+            <option value="" disabled selected>{{ translations["Skin darkening (Y/N)"] }}</option>
+            <option value="yes">{{ translations["Yes"] }}</option>
+            <option value="no">{{ translations["No"] }}</option>
+        </select><br>
+
+        <label for="Hair loss(Y/N)">{{ translations["Hair loss(Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Hair loss(Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Hair loss(Y/N)" name="Hair loss(Y/N)" required>
+            <option value="" disabled selected>{{ translations["Hair loss(Y/N)"] }}</option>
+            <option value="yes">{{ translations["Yes"] }}</option>
+            <option value="no">{{ translations["No"] }}</option>
+        </select><br>
+
+        <label for="Pimples(Y/N)">{{ translations["Pimples(Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Pimples(Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Pimples(Y/N)" name="Pimples(Y/N)" required>
+            <option value="" disabled selected>{{ translations["Pimples(Y/N)"] }}</option>
+            <option value="yes">{{ translations["Yes"] }}</option>
+            <option value="no">{{ translations["No"] }}</option>
+        </select><br>
+
+        <label for="Fast food (Y/N)">{{ translations["Fast food (Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Fast food (Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Fast food (Y/N)" name="Fast food (Y/N)" required>
+            <option value="" disabled selected>{{ translations["Fast food (Y/N)"] }}</option>
+            <option value="yes">{{ translations["Yes"] }}</option>
+            <option value="no">{{ translations["No"] }}</option>
+        </select><br>
+
+        <label for="Reg.Exercise(Y/N)">{{ translations["Reg.Exercise(Y/N)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Reg.Exercise(Y/N)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <select id="Reg.Exercise(Y/N)" name="Reg.Exercise(Y/N)" required>
+            <option value="" disabled selected>{{ translations["Reg.Exercise(Y/N)"] }}</option>
+            <option value="yes">{{ translations["yes"] }}</option>
+            <option value="no">{{ translations["no"] }}</option>
+        </select><br>
+
+        <label for="BP _Systolic (mmHg)">{{ translations["BP _Systolic (mmHg)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["BP _Systolic (mmHg)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="BP _Systolic (mmHg)" name="BP _Systolic (mmHg)" placeholder="{{ translations['BP _Systolic (mmHg)'] }}" required><br>
+
+        <label for="BP _Diastolic (mmHg)">{{ translations["BP _Diastolic (mmHg)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["BP _Diastolic (mmHg)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="BP _Diastolic (mmHg)" name="BP _Diastolic (mmHg)" placeholder="{{ translations['BP _Diastolic (mmHg)'] }}" required><br>
+
+        <label for="Follicle No. (L)">{{ translations["Follicle No. (L)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Follicle No. (L)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="Follicle No. (L)" name="Follicle No. (L)" placeholder="{{ translations['Follicle No. (L)'] }}" required><br>
+
+        <label for="Follicle No. (R)">{{ translations["Follicle No. (R)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Follicle No. (R)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" id="Follicle No. (R)" name="Follicle No. (R)" placeholder="{{ translations['Follicle No. (R)'] }}" required><br>
+
+        <label for="Avg. F size (L) (mm)">{{ translations["Avg. F size (L) (mm)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Avg. F size (L) (mm)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Avg. F size (L) (mm)" name="Avg. F size (L) (mm)" placeholder="{{ translations['Avg. F size (L) (mm)'] }}" required><br>
+
+        <label for="Avg. F size (R) (mm)">{{ translations["Avg. F size (R) (mm)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Avg. F size (R) (mm)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Avg. F size (R) (mm)" name="Avg. F size (R) (mm)" placeholder="{{ translations['Avg. F size (R) (mm)'] }}" required><br>
+
+        <label for="Endometrium (mm)">{{ translations["Endometrium (mm)"] }}</label>
+        <button class="play-btn" type="button"
+              data-label={{ translations["Endometrium (mm)"]|tojson }}
+              onclick="speakLabel(this.dataset.label);">▶</button>
+        <input type="number" step="0.1" id="Endometrium (mm)" name="Endometrium (mm)" placeholder="{{ translations['Endometrium (mm)'] }}" required><br>
+
+
+        <button type="submit" class="btn">{{ translations["submit"] }}</button>
+    </form>
+
+    
+    {% if result %}
+      <div class="result">Result: {{ result }}</div>
+    {% endif %}
+  </div>
+  <script>
+    function speakLabel(text) {
+      if ('speechSynthesis' in window) {
+        const lang = "{{ lang_map.get(session.get('language', 'en'), 'en-US') }}";
+        const utterance = new window.SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        const voices = window.speechSynthesis.getVoices();
+        const matchedVoice = voices.find(v => v.lang === lang);
+        if (matchedVoice) {
+          utterance.voice = matchedVoice;
+        }
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in your browser");
+      }
+    }
+  </script>
+    
+
+  
+
+</body>
+</html>
+

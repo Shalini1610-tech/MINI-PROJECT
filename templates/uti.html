@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% set lang_map = {
+    'en': 'en-US',
+    'hi': 'hi-IN',
+    'te': 'te-IN',
+    'pu': 'pa-IN',
+    'bn': 'bn-IN',
+    'od': 'or-IN',
+    'as': 'as-IN',
+    'gu': 'gu-IN',
+    'ma': 'mr-IN',
+    'ta': 'ta-IN'
+  } %}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UTI Diagnosis Form</title>
+  <title>{{ translations['uti_form_title'] }}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
     * {
@@ -12,10 +24,9 @@
     }
     body {
       background: linear-gradient(to right, #1e3c72, #2a5298);
-      color: white; text-align: center;
+      color: rgb(5, 5, 5); text-align: center;
     }
 
-    /* --- Navbar --- */
     .navbar {
       display: flex;
       justify-content: space-around;
@@ -38,7 +49,6 @@
       color: #ff7eb3;
     }
 
-    /* --- Dropdown --- */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -70,7 +80,6 @@
       display: flex;
     }
 
-    /* --- Page Container & Form --- */
     .container {
       max-width: 700px;
       margin: 120px auto 40px;
@@ -94,24 +103,13 @@
       font-weight: 600;
     }
     input[type="text"],
+    input[type="number"],
     select {
       padding: 10px;
       font-size: 1em;
       border: none;
       border-radius: 10px;
       outline: none;
-      color: #000;
-    }
-    /* Make number input text black */
-    input[type="number"] {
-      padding: 10px;
-      font-size: 1em;
-      border: none;
-      border-radius: 10px;
-      outline: none;
-      color: #000;
-    }
-    input[type="number"]::placeholder {
       color: #000;
     }
     .btn {
@@ -133,99 +131,165 @@
       font-size: 1.2em;
     }
     .logo {
-    height: 50px;
-    width: auto;
-    border-radius: 8px;
-    margin-right: 20px;
-    transition: transform 0.3s;
-}
+      height: 50px;
+      width: auto;
+      border-radius: 8px;
+      margin-right: 20px;
+      transition: transform 0.3s;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    .label-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-.logo:hover {
-    transform: scale(1.05);
 }
+.label-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .play-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #2196F3;
+    font-size: 0.8em;
+    padding: 2px 5px;
+  }
+  .play-btn:hover {
+    color: #1976D2;}
+
+
+
   </style>
 </head>
 <body>
 
-    <div class="navbar">
-
-      <div class="logo">
-        <a href="/">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo">
-        </a>
-        
+  <div class="navbar">
+    <div class="logo">
+      <a href="/">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo">
+      </a>
     </div>
-        <a href="/" class="nav-link">Home</a>
     
-        <div class="dropdown">
-          <a href="#" class="nav-link">GDDES System</a>
-          <div class="dropdown-content">
-            <a href="pcos" class="dropdown-item">PCOS</a>
-            <a href="uti" class="dropdown-item">UTI</a>
-          </div>
-        </div>
-        <a href="about" class="nav-link">About Us</a>
-        <a href="contact" class="nav-link">Contact</a>
-     
+    <!--<select id="language-select" onchange="changeLanguage(this.value)">
+      <option value="en" {% if session.get('language') == 'en' %}selected{% endif %}>English</option>
+      <option value="te" {% if session.get('language') == 'te' %}selected{% endif %}>తెలుగు</option>
+      <option value="hi" {% if session.get('language') == 'hi' %}selected{% endif %}>हिंदी</option>
+    </select>-->
+    <a href="/" class="nav-link">{{ translations['home'] }}</a>
+    <div class="dropdown">
+      <a href="#" class="nav-link">{{ translations['card1_title'] }}</a>
+      <div class="dropdown-content">
+        <a href="pcosm" class="dropdown-item">{{ translations['pcos'] }}</a>
+        <a href="uti" class="dropdown-item">{{ translations['uti'] }}</a>
       </div>
+    </div>
+    <a href="about" class="nav-link">{{ translations['card2_title'] }}</a>
+    <a href="contact" class="nav-link">{{ translations['card3_title'] }}</a>
+  </div>
 
   <div class="container">
-    <h2>UTI Diagnosis Form</h2>
+    <h1>{{ translations['uti_form_title'] }}</h1>
     <form action="/uti" method="post">
-      <label>Temperature of patient (°C)</label>
-      <input type="number" step="0.1" placeholder="Enter the Temperature" name="Temperature of patient" required>
+      <label>{{ translations['temperature_label'] }}</label>
+      <button class="play-btn" type="button"
+        data-label={{ translations['temperature_label']|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
 
-      <label>Occurrence of nausea</label>
+
+      <input type="number" step="0.1" placeholder="{{ translations['temperature_placeholder'] }}" name="Temperature of patient" required>
+      
+
+      <label>{{ translations['nausea_label'] }}</label>
+      <button class="play-btn" type="button"
+        data-label={{ translations['nausea_label']|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
+
       <select name="Occurrence of nausea" required>
-        <option value="Select an option" selected >Select a option</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        
+        <option value="Select an option" selected>{{ translations['select_option'] }}</option>
+        <option value="yes">{{ translations['yes'] }}</option>
+        <option value="no">{{ translations['no'] }}</option>
       </select>
 
-      <label>Lumbar pain</label>
+      <label>{{ translations['lumbar_pain_label'] }}</label>
+      <button class="play-btn" type="button"
+        data-label={{ translations['lumbar_pain_label']|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
       <select name="Lumbar pain" required>
-        <option value="Select an option" selected >Select a option</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        <option value="Select an option" selected>{{ translations['select_option'] }}</option>
+        <option value="yes">{{ translations['yes'] }}</option>
+        <option value="no">{{ translations['no'] }}</option>
       </select>
 
-      <label>Urine pushing (continuous need for urination)</label>
+      <label>{{ translations['urine_pushing_label'] }}</label>
+      <button class="play-btn" type="button"
+        data-label={{ translations['urine_pushing_label']|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
       <select name="Urine pushing (continuous need for urination)" required>
-        <option value="Select an option" selected >Select a option</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        <option value="Select an option" selected>{{ translations['select_option'] }}</option>
+        <option value="yes">{{ translations['yes'] }}</option>
+        <option value="no">{{ translations['no'] }}</option>
       </select>
 
-      <label>Micturition pains</label>
+      <label>{{ translations['micturition_pain_label'] }}</label>
+      <button class="play-btn" type="button"
+        data-label={{ translations['micturition_pain_label']|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
       <select name="Micturition pains" required>
-        <option value="Select an option" selected >Select a option</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        <option value="Select an option" selected>{{ translations['select_option'] }}</option>
+        <option value="yes">{{ translations['yes'] }}</option>
+        <option value="no">{{ translations['no'] }}</option>
       </select>
 
-      <label>Burning of urethra, itch, swelling of urethra outlet</label>
+      <label>{{ translations['burning_label'] }}</label>
+      <button class="play-btn" type="button"
+        data-label={{ translations['burning_label']|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
       <select name="Burning of urethra, itch, swelling of urethra outlet" required>
-        <option value="Select an option" selected >Select a option</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        <option value="Select an option" selected>{{ translations['select_option'] }}</option>
+        <option value="yes">{{ translations['yes'] }}</option>
+        <option value="no">{{ translations['no'] }}</option>
       </select>
 
-      <label>Inflammation of urinary bladder</label>
+      <label>{{ translations['inflammation_label'] }}</label>
+      <button class="play-btn" type="button"
+        data-label={{ translations['inflammation_label']|tojson }}
+        onclick="speakLabel(this.dataset.label);">▶</button>
       <select name="Inflammation of urinary bladder" required>
-        <option value="Select an option" selected >Select a option</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        <option value="Select an option" selected>{{ translations['select_option'] }}</option>
+        <option value="yes">{{ translations['yes'] }}</option>
+        <option value="no">{{ translations['no'] }}</option>
       </select>
 
-      <button type="submit" class="btn">Submit</button>
+      <button type="submit" class="btn">{{ translations['submit_btn'] }}</button>
     </form>
-
+    
     {% if result %}
       <div class="result">
         <h3>{{ result }}</h3>
       </div>
     {% endif %}
   </div>
-
+  <script>
+    function speakLabel(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = '{{ session.get("language", "en") }}';
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in your browser");
+      }
+    }
+    </script>
+    
+    
+    
+    
+    
 </body>
 </html>

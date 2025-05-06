@@ -1,0 +1,10 @@
+
+pip install pandas 
+pip install numpy  
+pip install scikit-learn
+pip install xgboost
+pip install catboost
+pip install pickle
+pip install joblib
+pip install flask
+pip install Gradient Boosting Classifier
