@@ -41,39 +41,39 @@ with open('pcos_selector.pkl', 'rb') as f:
 def load_translations(lang):
     try:
         if lang == 'te':
-            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/te.json', 'r', encoding='utf-8') as f:
+            with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/te.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'en':
-            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/en.json', 'r', encoding='utf-8') as f:
+            with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/en.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'hi':
-            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/hi.json', 'r', encoding='utf-8') as f:
+            with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/hi.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'pu':
-             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/pu.json', 'r', encoding='utf-8') as f:
+             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/pu.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'bn':
-             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/bn.json', 'r', encoding='utf-8') as f:
+             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/bn.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'od':
-             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/od.json', 'r', encoding='utf-8') as f:
+             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/od.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'as':
-             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/as.json', 'r', encoding='utf-8') as f:
+             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/as.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'gu':
-             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/gu.json', 'r', encoding='utf-8') as f:
+             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/gu.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'ma':
-             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/ma.json', 'r', encoding='utf-8') as f:
+             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/ma.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'ta':
-             with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/ta.json', 'r', encoding='utf-8') as f:
+             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/ta.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         
         else:
             # Default to English if unsupported language code is provided
-            with open('/home/rgukt/Desktop/mini_project_nlp/static/images/lang/en.json', 'r', encoding='utf-8') as f:
+            with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/en.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
     except Exception as e:
         print(f"Error loading translations for language '{lang}': {str(e)}")
