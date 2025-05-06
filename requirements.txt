@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 
 pip install pandas 
 pip install numpy  
@@ -26,4 +26,4 @@ pydub
 
 
 
->>>>>>> 5eae73034c3a4701b782185ddd7749a118ed0860
+
