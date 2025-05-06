@@ -44,7 +44,7 @@ def load_translations(lang):
             with open('/static/images/lang/te.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'en':
-            with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/en.json', 'r', encoding='utf-8') as f:
+            with open('/main/static/images/lang/en.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'hi':
             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/hi.json', 'r', encoding='utf-8') as f:
