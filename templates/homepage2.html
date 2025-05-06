@@ -132,6 +132,7 @@
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GDDES Logo" class="logo" />
       </a>
     </div>
+<<<<<<< HEAD
     <a href="#">{{ translations['nav-home'] }}</a>
     <select id="language-select" onchange="changeLanguage(this.value)">
       <option value="en" {% if session.get('language') == 'en' %}selected{% endif %}>English</option>
@@ -181,5 +182,32 @@
       window.location.href = "/set_language/" + lang;
     }
   </script>
+=======
+     
+      
+        
+      
+    <div class="container">
+
+        <h1><marquee>WELCOME TO GYNECOLOGICAL DISEASE DETECTION EXPERT SYSTEM</marquee></h1>
+        <p>Expert system for diagnosing PCOS and UTI.</p>
+        <div class="content">
+            <div class="card">
+                <!--<img src="https://via.placeholder.com/300" alt="GDDES System">-->
+                <h3>GDDES SYSTEM</h3>
+                <p class="description">GDDES is an expert system designed to detect gynecological conditions such as Polycystic Ovary Syndrome (PCOS) and Urinary Tract Infections (UTI). </p>
+            </div>
+            <div class="card">
+                <!--<img src="https://via.placeholder.com/300" alt="About Us">-->
+                <h3>About Us</h3>
+                <p class="description">At GDDES, we care deeply about women's health.Our vision is to bridge the gap between technology and accessible healthcare.</p>
+            </div>
+            <div class="card">
+                <!--<img src="https://via.placeholder.com/300" alt="Contact">-->
+                <h3>Contact</h3>
+                <p class="description">Reach out to us for inquiries, collaborations, or support regarding GDDES.</p>
+            </div>
+        
+>>>>>>> 5eae73034c3a4701b782185ddd7749a118ed0860
 </body>
 </html>
