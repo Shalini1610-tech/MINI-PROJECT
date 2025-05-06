@@ -41,7 +41,7 @@ with open('pcos_selector.pkl', 'rb') as f:
 def load_translations(lang):
     try:
         if lang == 'te':
-            with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/te.json', 'r', encoding='utf-8') as f:
+            with open('/static/images/lang/te.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
         elif lang == 'en':
             with open('https://github.com/Shalini1610-tech/MINI-PROJECT/blob/main/static/images/lang/en.json', 'r', encoding='utf-8') as f:
