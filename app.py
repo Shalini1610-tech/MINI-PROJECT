@@ -73,8 +73,7 @@ def load_translations(lang):
         
         else:
             # Default to English if unsupported language code is provided
-            with open('https://raw.githubusercontent.com/Shalini1610-tech/MINI-PROJECT/main/static/images/lang/en.json
-', 'r', encoding='utf-8') as f:
+            with open('https://raw.githubusercontent.com/Shalini1610-tech/MINI-PROJECT/main/static/images/lang/en.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
     except Exception as e:
         print(f"Error loading translations for language '{lang}': {str(e)}")
